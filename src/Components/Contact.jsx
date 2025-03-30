@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { FaUser, FaPhoneAlt } from "react-icons/fa";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
 import { TbMessageChatbotFilled } from "react-icons/tb";
@@ -87,7 +87,7 @@ const Contact = () => {
           </div>
 
           {/* Right Section */}
-          <div className="space-y-8 p-8 bg-white shadow-xl rounded-md">
+          <div className="space-y-8 p-8 bg-white shadow-xl rounded-md w-full lg:w-2/3">
             <h3 className="text-2xl font-bold mb-4 text-center md:text-left">Contact</h3>
             <form action="" className="space-y-6" onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row gap-4">
@@ -136,7 +136,7 @@ const Contact = () => {
               </button>
             </form>
           </div>
-        </div>
+        </div> 
       </div>
 
       {/* Modal */}

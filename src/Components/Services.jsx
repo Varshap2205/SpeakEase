@@ -1,11 +1,13 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import service1 from '../assets/service1.webp'
-import service2 from '../assets/service2.webp'
-import service3 from '../assets/service3.webp'
+import service2 from '../assets/service2.png'
+import service3 from '../assets/service3.png'
 import service4 from '../assets/service4.webp'
 const Services = () => {
+  const navigate = useNavigate();
   return (
     <div id="services" className='bg-[#f7f8fc]'>
       <div className='pt-28 px-4 container mx-auto'>
@@ -16,30 +18,31 @@ const Services = () => {
         <div className='py-12 md:w-4/5 mx-auto'>
         <Tabs>
   <TabList className="flex flex-wrap justify-between items-center md:gap-8 gap-4">
-    <Tab>Couple Counselling</Tab>
-    <Tab>Parenting Skills</Tab>
-    <Tab>Feeling Stuck</Tab>
-    <Tab>Self Confidence</Tab>
+    <Tab>Personalised Recomendations</Tab>
+    <Tab>Chatbot</Tab>
+    <Tab>Journaling</Tab>
+    <Tab>Contact Therapists</Tab>
   </TabList>
 
   <TabPanel>
   <div className="flex flex-col md:flex-row gap-8 mt-8">
     <div className="md:w-1/2 bg-white rounded-lg p-12 font-secondary">
-      <h1 className="text-2xl font-semibold mb-4 text-primary">Couple Counselling</h1>
+      <h1 className="text-2xl font-semibold mb-4 text-primary">Personalised Recomendations</h1>
       <p className="text-gray-700 mb-8">
-        Strengthen your bond and navigate challenges together with expert guidance tailored to build trust, communication, and lasting harmony.
+      Receive expert-curated guidance and resources tailored to your mental health needs, helping you find the right support and coping strategies.
       </p>
       <h2 className="text-xl font-semibold mb-2">Benefits</h2>
       <ul className="list-disc list-inside space-y-3">
-        <li>Improve communication and understanding.</li>
-        <li>Resolve conflicts constructively.</li>
-        <li>Rebuild trust and intimacy.</li>
-        <li>Foster mutual personal growth.</li>
+        <li>Personalized therapy suggestions</li>
+        <li>Self-help tools for mental well-being.</li>
+        <li>Mindfulness and stress-relief resources.</li>
+        <li>Structured support for emotional health.</li>
       </ul>
+      
     </div>
     
     <div className="md:w-1/2">
-      <img src={service1} alt="Couple Counselling" className="w-full h-auto rounded-2xl object-cover md:h-[446px]" />
+      <img src={service1} alt="Couple Counselling" className="w-full h-auto rounded-2xl object-cover md:h-[446px]"/>
     </div>
   </div>
 </TabPanel>
@@ -49,22 +52,22 @@ const Services = () => {
 <TabPanel>
   <div className="flex flex-col md:flex-row gap-8 mt-8">
     <div className="md:w-1/2 bg-white rounded-lg p-12 font-secondary">
-      <h1 className="text-2xl font-semibold mb-4 text-primary">Parenting Skills
+      <h1 className="text-2xl font-semibold mb-4 text-primary">Chatbot
       </h1>
       <p className="text-gray-700 mb-8">
-      Empower your parenting journey with practical strategies to nurture healthy relationships and foster your child’s emotional and mental growth.
+      Engage with a compassionate AI chatbot designed to offer emotional support, guidance, and helpful resources whenever you need them.
       </p>
       <h2 className="text-xl font-semibold mb-2">Benefits</h2>
       <ul className="list-disc list-inside space-y-3">
-        <li>Learn positive discipline techniques.</li>
-        <li>Understand your child’s needs better.</li>
-        <li>Manage parenting stress effectively.</li>
-        <li>Encourage healthy behaviors in children.</li>
+        <li>Receive immediate emotional support anytime.</li>
+        <li>Get guided exercises for stress, anxiety, and mindfulness.</li>
+        <li>Access coping strategies and self-care tips.</li>
+        <li>Feel heard and validated in a safe, judgment-free space.</li>
       </ul>
     </div>
     
     <div className="md:w-1/2">
-      <img src={service2} alt="Couple Counselling" className="w-full h-auto rounded-2xl object-cover md:h-[446px]" />
+      <img src={service2} alt="Couple Counselling" className="w-full h-auto rounded-2xl md:h-[446px]" />
     </div>
   </div>
 </TabPanel>
@@ -72,17 +75,18 @@ const Services = () => {
 <TabPanel>
   <div className="flex flex-col md:flex-row gap-8 mt-8">
     <div className="md:w-1/2 bg-white rounded-lg p-12 font-secondary">
-      <h1 className="text-2xl font-semibold mb-4 text-primary">Feeling Stuck</h1>
+      <h1 className="text-2xl font-semibold mb-4 text-primary">Journaling</h1>
       <p className="text-gray-700 mb-8">
-      Break free from uncertainty and rediscover purpose with personalized support to help you move forward confidently in life.
+      Express yourself freely and reflect on your thoughts with a structured journaling tool designed to boost self-awareness and mental clarity.
       </p>
       <h2 className="text-xl font-semibold mb-2">Benefits</h2>
       <ul className="list-disc list-inside space-y-3">
-        <li>Gain clarity and purpose.</li>
-        <li>Overcome mental and emotional barriers.</li>
-        <li>Reignite motivation and enthusiasm.</li>
-        <li>Empower yourself for positive change.</li>
+        <li>Improve emotional well-being through self-expression.</li>
+        <li>Track personal growth and set meaningful goals.</li>
+        <li>Reduce stress and gain mental clarity.</li>
+        <li>Enhance creativity and mindfulness.</li>
       </ul>
+      <button className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-300" onClick={() => navigate('/list')} >Journal</button>
     </div>
     
     <div className="md:w-1/2">
@@ -94,17 +98,17 @@ const Services = () => {
 <TabPanel>
   <div className="flex flex-col md:flex-row gap-8 mt-8">
     <div className="md:w-1/2 bg-white rounded-lg p-12 font-secondary">
-      <h1 className="text-2xl font-semibold mb-4 text-primary">Self-Confidence
+      <h1 className="text-2xl font-semibold mb-4 text-primary">Contact Therapists
       </h1>
       <p className="text-gray-700 mb-8">
-      Unlock your true potential by building self-esteem and embracing your strengths with our tailored confidence-boosting techniques.
+      Connect with professional therapists who can provide personalized guidance and support to help you navigate life’s challenges.
       </p>
       <h2 className="text-xl font-semibold mb-2">Benefits</h2>
       <ul className="list-disc list-inside space-y-3">
-        <li>Build awareness of your strengths.</li>
-        <li>Develop a positive mindset.</li>
-        <li>Learn assertive communication skills.</li>
-        <li>Achieve personal and professional goals.</li>
+        <li>Access expert advice tailored to your needs.</li>
+        <li>Improve mental and emotional well-being.</li>
+        <li>Gain coping strategies for stress and anxiety.</li>
+        <li>Build a healthier mindset and lifestyle.</li>
       </ul>
     </div>
     

@@ -3,8 +3,11 @@ import { FaArrowAltCircleRight } from "react-icons/fa";
 import thumbnail from '../assets/video-thumbnail.webp'
 import { FaPlay } from "react-icons/fa6";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+
 const About = () => {
   const [isVideoPlaying,setIsVideoPlaying]=useState(false)
+  const navigate=useNavigate()
   const handleVideoPlay = () => {
     setIsVideoPlaying(true)
   }
@@ -27,13 +30,16 @@ const About = () => {
           }
         </div>
         <div className='md:w-1/2 w-full'>
-        <h1 className='text-4xl font-secondary font-bold mb-4 md:w-3/5 leading-snug'>Individual Consult And Therapy</h1>
-          <p className='text-lg mb-12 md:pr-8'>Individual consultation and therapy provide personalized support for emotional and mental well-being. Tailored to your unique needs, these sessions offer a safe space for healing, helping you overcome challenges, develop coping strategies, and achieve greater clarity and self-awareness.</p>
-          <button className='bg-primary text-white py-3.5 px-8 font-medium rounded-md hover:bg-primary/90'>
-            <a href="#contact" className='flex gap-1 items-center'><span>Get Started</span>
-            <FaArrowAltCircleRight />
-            </a>
-          </button>
+        <h1 className='text-4xl font-secondary font-bold mb-4 md:w-3/5 leading-snug'>Register as Therapist</h1>
+          <p className='text-lg mb-12 md:pr-8'>Provide personalized support for emotional and mental well-being.</p>
+          
+          <button
+  className='bg-primary text-white py-4 px-12 font-medium rounded-md hover:bg-primary/90 flex items-center gap-2'
+  onClick={() => navigate('/therapist-register')} 
+>
+  <span>Register Now</span>
+  <FaArrowAltCircleRight />
+</button>
         </div>
       </div>
       {
