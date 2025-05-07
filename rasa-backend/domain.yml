@@ -1,0 +1,24 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - express_sadness
+  - need_support
+
+responses:
+  utter_greet:
+    - text: "Hello there! I'm here for you. How are you feeling today?"
+
+  utter_goodbye:
+    - text: "Take care. I'm always here whenever you need me."
+
+  utter_comfort:
+    - text: "I'm sorry you're feeling this way. You're not alone — I'm here to listen."
+
+  utter_support:
+    - text: "It's okay to ask for help. Let's take a deep breath together. You're doing great."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

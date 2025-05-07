@@ -1,66 +1,91 @@
 import React, { useEffect, useState } from "react";
+import { db } from "../firebase/firebaseConfig";
+import { collection, getDocs, query, where, updateDoc, doc, deleteDoc } from "firebase/firestore";
 
 const Admin = () => {
   const [therapists, setTherapists] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/therapists") // Replace with actual API endpoint
-      .then((res) => res.json())
-      .then((data) => setTherapists(data))
-      .catch((err) => console.error("Error fetching therapists:", err));
+    const fetchTherapists = async () => {
+      try {
+        const q = query(collection(db, "therapists")); // fetch all
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTherapists(data);
+      } catch (error) {
+        console.error("Error fetching therapists:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTherapists();
   }, []);
 
-  const updateStatus = (id, status) => {
-    fetch(`/api/therapists/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    })
-      .then((res) => res.json())
-      .then((updatedTherapist) => {
-        setTherapists((prev) =>
-          prev.map((t) => (t.id === id ? { ...t, status } : t))
-        );
-      })
-      .catch((err) => console.error("Error updating status:", err));
+  const updateStatus = async (id, newStatus) => {
+    try {
+      const ref = doc(db, "therapists", id);
+      await updateDoc(ref, { status: newStatus });
+      setTherapists((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, status: newStatus } : t))
+      );
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  const deleteTherapist = async (id) => {
+    try {
+      await deleteDoc(doc(db, "therapists", id));
+      setTherapists((prev) => prev.filter((t) => t.id !== id));
+    } catch (error) {
+      console.error("Error deleting therapist:", error);
+    }
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-20">
-      <h2 className="text-2xl font-bold mb-6 text-green-600">Admin Work</h2>
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-2">Name</th>
-            <th className="border p-2">Email</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {therapists.map((therapist) => (
-            <tr key={therapist.id} className="text-center">
-              <td className="border p-2">{therapist.name}</td>
-              <td className="border p-2">{therapist.email}</td>
-              <td className="border p-2 font-semibold text-{therapist.status === 'Approved' ? 'green' : therapist.status === 'Rejected' ? 'red' : 'yellow'}-500">{therapist.status}</td>
-              <td className="border p-2">
+    <div className="bg-gray-100 min-h-screen p-8">
+      <h1 className="text-3xl font-bold text-center mb-8">Admin Panel</h1>
+      {loading ? (
+        <p>Loading therapists...</p>
+      ) : therapists.length === 0 ? (
+        <p className="text-center text-gray-600">No therapist requests found.</p>
+      ) : (
+        <div className="space-y-4">
+          {therapists.map((t) => (
+            <div key={t.id} className="bg-white p-4 rounded shadow">
+              <h2 className="text-xl font-semibold">{t.name}</h2>
+              <p>Email: {t.email}</p>
+              <p>Gender: {t.gender}</p>
+              <p>Status: {t.status}</p>
+              <div className="mt-4 flex gap-4">
                 <button
-                  className="bg-green-500 text-white px-4 py-1 rounded mr-2 hover:bg-green-600"
-                  onClick={() => updateStatus(therapist.id, "Approved")}
+                  onClick={() => updateStatus(t.id, "Approved")}
+                  className="bg-green-600 text-white px-4 py-2 rounded"
                 >
                   Approve
                 </button>
                 <button
-                  className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
-                  onClick={() => updateStatus(therapist.id, "Rejected")}
+                  onClick={() => updateStatus(t.id, "Rejected")}
+                  className="bg-red-600 text-white px-4 py-2 rounded"
                 >
                   Reject
                 </button>
-              </td>
-            </tr>
+                <button
+                  onClick={() => deleteTherapist(t.id)}
+                  className="bg-gray-600 text-white px-4 py-2 rounded"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      )}
     </div>
   );
 };

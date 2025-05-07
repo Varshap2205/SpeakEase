@@ -1,0 +1,7 @@
+version: "3.1"
+
+stories:
+- story: express sadness path
+  steps:
+  - intent: express_sadness
+  - action: utter_comfort

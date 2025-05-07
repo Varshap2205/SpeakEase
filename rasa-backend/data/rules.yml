@@ -1,0 +1,22 @@
+version: "3.1"
+
+rules:
+- rule: Greet user
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Respond to sadness
+  steps:
+  - intent: express_sadness
+  - action: utter_comfort
+
+- rule: Provide support
+  steps:
+  - intent: need_support
+  - action: utter_support

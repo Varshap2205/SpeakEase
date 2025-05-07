@@ -2,14 +2,15 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCTX9uhd3diaaMB07-7tNNXVR-ABWtuRuE",
-    authDomain: "mental-health-app-74a17.firebaseapp.com",
-    projectId: "mental-health-app-74a17",
-    storageBucket: "mental-health-app-74a17.appspot.com", 
-    messagingSenderId: "187934314419",
-    appId: "1:187934314419:web:5729e8a59177eb642cc5c6",
-    measurementId: "G-2B191YRWEC"
-  };
+  apiKey: "AIzaSyCQstl99oLeagxFbZJe4BQo2Ygin3xzYvI",
+  authDomain: "user-authentication-968e7.firebaseapp.com",
+  databaseURL: "https://user-authentication-968e7-default-rtdb.firebaseio.com",
+  projectId: "user-authentication-968e7",
+  storageBucket: "user-authentication-968e7.firebasestorage.app",
+  messagingSenderId: "368662173665",
+  appId: "1:368662173665:web:9110454eed4b1dafba64a0",
+  measurementId: "G-JEKNG4ZVDG"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

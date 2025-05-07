@@ -64,6 +64,13 @@ const Services = () => {
         <li>Access coping strategies and self-care tips.</li>
         <li>Feel heard and validated in a safe, judgment-free space.</li>
       </ul>
+      <button
+  className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+  onClick={() => navigate('/chatbot')}
+>
+  Talk to Chatbot
+</button>
+
     </div>
     
     <div className="md:w-1/2">
@@ -110,6 +117,12 @@ const Services = () => {
         <li>Gain coping strategies for stress and anxiety.</li>
         <li>Build a healthier mindset and lifestyle.</li>
       </ul>
+      <button
+  className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+  onClick={() => navigate('/match-therapist')}
+>
+  Get Matched!
+</button>
     </div>
     
     <div className="md:w-1/2">
