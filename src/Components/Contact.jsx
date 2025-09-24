@@ -2,78 +2,34 @@ import React, { useState, useEffect } from "react";
 import { FaUser, FaPhoneAlt } from "react-icons/fa";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
 import { TbMessageChatbotFilled } from "react-icons/tb";
-import { db } from "../firebase/firebaseConfig"; // adjust path as needed
-import {
-  collection,
-  addDoc,
-  Timestamp,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+
 
 const Contact = () => {
-  const [name, setName] = useState(""); // New state for name
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
-  const [nationality, setNationality] = useState("");
-  const [showModel, setShowModel] = useState(false);
-  const [matchedTherapists, setMatchedTherapists] = useState([]);
+ const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !gender || !age || !nationality) {
-      alert("Please fill all the fields.");
+    if (!name || !message) {
+      alert("Please fill in both fields.");
       return;
     }
 
-    const data = {
-      name, // Store the name field
-      gender,
-      age,
-      nationality,
-      createdAt: Timestamp.now(),
-    };
+    // Here you can add logic to store in Firestore if needed
 
-    try {
-      await addDoc(collection(db, "users"), data); // Store user data in Firestore
-      setShowModel(true);
-      fetchMatchingTherapists(gender, nationality, age);
-    } catch (err) {
-      console.error("Error submitting data:", err);
-      alert("Something went wrong. Please try again.");
-    }
+    setSubmitted(true);
+
+    // Reset the form after submission
+    setName("");
+    setMessage("");
+
+    // Automatically close the popup after 3 seconds (optional)
+    setTimeout(() => setSubmitted(false), 3000);
   };
 
-  const fetchMatchingTherapists = async (gender, nationality, age) => {
-    try {
-      const therapistRef = collection(db, "therapists");
-      const q = query(
-        therapistRef,
-        where("gender", "==", gender),
-        where("nationality", "==", nationality.toLowerCase().trim()),
-        where("age", ">=", parseInt(age) - 5),
-        where("age", "<=", parseInt(age) + 5)
-      );
-  
-      const querySnapshot = await getDocs(q);
-      const matches = querySnapshot.docs.map((doc) => doc.data());
-      setMatchedTherapists(matches);
-    } catch (err) {
-      console.error("Error fetching therapists:", err);
-    }
-  };
-  
 
-  const closeModel = () => {
-    setShowModel(false);
-    setName(""); // Reset the name field as well
-    setGender("");
-    setAge("");
-    setNationality("");
-    setMatchedTherapists([]);
-  };
 
   return (
     <div id="contact" className="bg-heroBg flex items-center justify-center py-20 px-4">
@@ -126,7 +82,7 @@ const Contact = () => {
 
           {/* Right Section */}
           <div className="space-y-8 p-8 bg-white shadow-xl rounded-lg w-full md:w-1/2">
-            <h2 className="text-2xl font-bold text-center">Find Your Therapist</h2>
+            <h2 className="text-2xl font-bold text-center">Got Any Questions?</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Input */}
               <input
@@ -137,8 +93,17 @@ const Contact = () => {
                 required
                 className="w-full p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-primary shadow"
               />
+               <textarea
+            placeholder="Your Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={4}
+            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          ></textarea>
+              
 
-              <select
+              {/* <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
                 required
@@ -148,8 +113,8 @@ const Contact = () => {
                 <option value="female">Female</option>
                 <option value="male">Male</option>
                 <option value="other">Other</option>
-              </select>
-
+              </select> */}
+{/* 
               <input
                 type="number"
                 placeholder="Age"
@@ -166,7 +131,7 @@ const Contact = () => {
                 onChange={(e) => setNationality(e.target.value)}
                 required
                 className="w-full p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-primary shadow"
-              />
+              /> */}
 
               <button
                 type="submit"
@@ -174,9 +139,14 @@ const Contact = () => {
               >
                 Submit
               </button>
+                {submitted && (
+          <div className="mt-4 bg-green-100 text-green-800 p-3 rounded text-center font-medium">
+            Message submitted successfully!
+          </div>
+        )}
             </form>
 
-            {showModel && (
+            {/* {showModel && (
               <div className="mt-6 bg-green-100 p-4 rounded">
                 <h3 className="text-green-700 font-semibold">Therapists Matched:</h3>
                 {matchedTherapists.length > 0 ? (
@@ -197,7 +167,7 @@ const Contact = () => {
                   Close
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

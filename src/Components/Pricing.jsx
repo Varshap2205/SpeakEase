@@ -3,34 +3,40 @@ import React from 'react';
 const packages = [
   {
     name: 'Silver Package',
-    price: '$99',
-    description: 'Ideal for individuals or small businesses looking to get started with mental wellness.',
+    price: '$0',
+    description: 'Get started with essential tools for daily mental wellness.',
     features: [
-      'Chatbot therapist facility',
+      'Access to intelligent chatbot therapist (standard version)',
+      'Guided self-journaling space',
       'Weekly mental wellness tips',
-      'Community support group access',
+      'Access to community support groups',
+      'Explore licensed therapist directory',
     ],
   },
   {
     name: 'Gold Package',
     price: '$199',
-    description: 'A great choice for mental health with additional features and personalised therapists.',
+    description: 'Unlock premium support and personalized care.',
     features: [
       'All Silver Package features',
-      'Monthly guided meditation sessions',
-      'Personalized wellness plan',
-      'Access to expert webinars',
+      'Personalized chatbot therapist with tailored responses',
+      'AI-powered therapist recommendations',
+      'Monthly one-on-one live sessions with therapists',
+      'Personalized wellness plan & tracking',
+      'Access to exclusive expert webinars & meditation sessions',
+      'Priority support & therapist match assistance',
     ],
   },
 ];
 
 const Pricing = () => {
-  const handleScrollToContact=()=>{
-    const targetElement=document.getElementById('contact');
-    if(targetElement){
-      targetElement.scrollIntoView({behavior:'smooth'});
+  const handleScrollToContact = () => {
+    const targetElement = document.getElementById('contact');
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
+
   return (
     <div id="pricing" className="bg-[#f7f8fc] pt-32">
       <div className="container mx-auto px-8">
@@ -45,28 +51,28 @@ const Pricing = () => {
           </p>
         </div>
 
-        {/* Updated Flexbox for the packages */}
         <div className="flex flex-wrap justify-between gap-8 pb-12">
-          {packages.map((pkg, index) => {
-            return (
-              <div key={index} className="bg-white rounded-lg p-6 flex-1 shadow-lg">
-                <h3 className="text-2xl font-semibold mb-4">{pkg.name}</h3>
-                <hr className="w-24 border text-primary border-primary" />
-                <p className="text-3xl font-bold mb-4">
-                  {pkg.price} <span className="text-lg font-normal">/month</span>
-                </p>
-                <p className="text-lg mb-4">{pkg.description}</p>
-                <ul className="list-disc list-inside space-y-2 mb-6">
-                  {pkg.features.map((feature, idx) => {
-                    return <li key={idx}>{feature}</li>;
-                  })}
-                </ul>
-                <button
+          {packages.map((pkg, index) => (
+            <div key={index} className="bg-white rounded-lg p-6 flex-1 shadow-lg">
+              <h3 className="text-2xl font-semibold mb-4">{pkg.name}</h3>
+              <hr className="w-24 border text-primary border-primary" />
+              <p className="text-3xl font-bold mb-4">
+                {pkg.price} <span className="text-lg font-normal">/month</span>
+              </p>
+              <p className="text-lg mb-4">{pkg.description}</p>
+              <ul className="list-disc list-inside space-y-2 mb-6">
+                {pkg.features.map((feature, idx) => (
+                  <li key={idx}>{feature}</li>
+                ))}
+              </ul>
+              <button
                 onClick={handleScrollToContact}
-                className='bg-primary text-white px-4 py-2 rounded'>Get Started</button>
-              </div>
-            );
-          })}
+                className="bg-primary text-white px-4 py-2 rounded"
+              >
+                Get Started
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

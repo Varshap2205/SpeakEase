@@ -32,9 +32,10 @@ const JournalList = () => {
       }
     }
   };
+  //function
 
   return (
-    <div className="max-w-3xl mx-auto p-6 mt-20">
+    <div className="max-w-3xl mx-auto p-6 pt-24">
       <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Your Journals</h1>
 
       {journals.length === 0 ? (

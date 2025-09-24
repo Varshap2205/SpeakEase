@@ -21,7 +21,7 @@ const Hero = () => {
           </p>
           <button
   className='bg-primary text-white py-4 px-12 font-medium rounded-md hover:bg-primary/90 flex items-center gap-2'
-  onClick={() => navigate('/form')} // Navigate to the form page
+  onClick={() => navigate('/user-login')} 
 >
   <span>Get Started</span>
   <FaArrowAltCircleRight />

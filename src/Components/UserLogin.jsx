@@ -1,117 +1,130 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase/firebaseConfig";
-import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 
-const UserLogin = () => {
+const SimpleAuth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [isSignup, setIsSignup] = useState(false);
 
-  const navigate = useNavigate();
+  // Simulate user database (in real app, this would be a backend)
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     setError("");
-    setLoading(true);
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/"); // Redirect to home page
-    } catch (error) {
-      setError("Invalid email or password. Please try again.");
-    } finally {
-      setLoading(false);
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    if (isSignup) {
+      // Sign up logic
+      const existingUser = users.find(u => u.email === email);
+      if (existingUser) {
+        setError("User already exists");
+        return;
+      }
+      
+      const newUser = { email, password };
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      setUser({ email });
+      setIsLoggedIn(true);
+      setEmail("");
+      setPassword("");
+    } else {
+      // Login logic
+      const existingUser = users.find(u => u.email === email && u.password === password);
+      if (!existingUser) {
+        setError("Invalid email or password");
+        return;
+      }
+      
+      setUser({ email });
+      setIsLoggedIn(true);
+      setEmail("");
+      setPassword("");
     }
   };
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/"); // Redirect to home page
-    } catch (error) {
-      setError("Failed to create account. Try a different email.");
-    } finally {
-      setLoading(false);
-    }
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUser(null);
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/"); // Redirect to home page
-    } catch (error) {
-      console.error("Logout Failed:", error.message);
-    }
-  };
+  if (isLoggedIn) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4">
+        <div className="bg-gray-900 p-8 rounded-lg shadow-lg text-center">
+          <h2 className="text-white text-2xl mb-4">Welcome!</h2>
+          <p className="text-green-400 mb-6">Logged in as: {user?.email}</p>
+          <button
+            onClick={handleLogout}
+            className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition duration-300"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4">
-      {!loading && !user ? (
-        <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-sm">
-          <form onSubmit={handleLogin}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full p-3 rounded-lg border border-green-500 bg-gray-800 text-white focus:ring-2 focus:ring-green-500 outline-none"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full p-3 rounded-lg border border-green-500 bg-gray-800 text-white focus:ring-2 focus:ring-green-500 outline-none mt-3"
-            />
-            <button
-              type="submit"
-              className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-300"
-            >
-              Login
-            </button>
-          </form>
-
-          <p className="text-white text-center my-4">OR</p>
-
-          <form onSubmit={handleSignup}>
-            <button
-              type="submit"
-              className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-300"
-            >
-              Sign Up
-            </button>
-          </form>
-
-          {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
+      <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-sm">
+        <h2 className="text-white text-2xl font-bold text-center mb-6">
+          {isSignup ? "Sign Up" : "Login"}
+        </h2>
+        
+        <div className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 rounded-lg border border-green-500 bg-gray-800 text-white focus:ring-2 focus:ring-green-500 outline-none"
+          />
+          
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 rounded-lg border border-green-500 bg-gray-800 text-white focus:ring-2 focus:ring-green-500 outline-none"
+          />
+          
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+          >
+            {isSignup ? "Create Account" : "Login"}
+          </button>
         </div>
-      ) : (
-        <button
-          onClick={handleLogout}
-          className="px-6 py-3 bg-white text-black font-semibold rounded-lg shadow-md hover:bg-gray-200 transition duration-300"
-        >
-          Logout
-        </button>
-      )}
+
+        <div className="text-center mt-4">
+          <p className="text-gray-400 text-sm">
+            {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
+            <button
+              onClick={() => {
+                setIsSignup(!isSignup);
+                setError("");
+              }}
+              className="text-green-400 hover:text-green-300 underline"
+            >
+              {isSignup ? "Login" : "Sign Up"}
+            </button>
+          </p>
+        </div>
+
+        {error && (
+          <p className="text-red-500 text-sm mt-3 text-center">{error}</p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default UserLogin;
+export default SimpleAuth;

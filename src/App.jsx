@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Hero from './Components/Hero';
 import Form from './Components/Form';
 import Navbar from './Components/Navbar';
@@ -23,7 +23,7 @@ import TherapistFilter from './Components/TherapistFilter';
 function App() {
   return (
     <div className='font-primary overflow-x-hidden'>
-      <Router>
+      
         <Navbar />
         <Routes>
           {/* Home route rendering multiple components */}
@@ -53,7 +53,7 @@ function App() {
           <Route path="/chatbot" element={<ChatbotPage />} />
           <Route path="/match-therapist" element={<TherapistFilter />} />
         </Routes>
-      </Router>
+    
     </div>
   );
 }
